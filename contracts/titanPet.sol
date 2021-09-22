@@ -10,14 +10,14 @@ contract TitanPet is Ownable{
     enum attr {
         HUNGER,
         THIRST,
-        HEALTH,
-        HAPPINESS,
-        ENERGY,
-        CLEANLINESS
+        UNHEALTHINESS,
+        UNHAPPINESS,
+        TIREDNESS,
+        DIRTINESS
     }
     
     // Stats mapping
-    mapping(attr=>uint) attributes;
+    mapping(attr=>int) attributes;
     // Attribute update timestamps
     mapping(attr=>uint) attributeChanges;
     
@@ -62,10 +62,10 @@ contract TitanPet is Ownable{
         name = p_name;
         attributes[attr.HUNGER] = 0;
         attributes[attr.THIRST] = 0;
-        attributes[attr.HEALTH] = 60 + ((block.timestamp ^ block.difficulty) % 40);
-        attributes[attr.HAPPINESS] = 60 + (block.timestamp % 40);
-        attributes[attr.ENERGY] = 100;
-        attributes[attr.CLEANLINESS] = 60 + ((block.timestamp ^ block.number) % 40);
+        attributes[attr.UNHEALTHINESS] = int(block.timestamp ^ block.difficulty) % 40;
+        attributes[attr.UNHAPPINESS] = int(block.timestamp) % 40;
+        attributes[attr.TIREDNESS] = 0;
+        attributes[attr.DIRTINESS] = int(block.timestamp ^ block.number) % 40;
         asleep = false;
         buried = false;
         bornTimestamp = block.timestamp;
@@ -74,103 +74,103 @@ contract TitanPet is Ownable{
     
     /* INTERACTIONS */
     function buyApple() external onlyAwake onlyAlive onlyOwner{
-        require (getCleanliness()>=30,"I'm too dirty to eat");
+        require (getDirtiness()>=30,"I'm too dirty to eat");
         require (getHunger()>=30,"I'm not hungry");
-        setAttr(attr.HUNGER,-20);
-        setAttr(attr.THIRST,-5);
-        setAttr(attr.CLEANLINESS,-10);
-        setAttr(attr.HEALTH,5);
+        setAttr(attr.HUNGER,getHunger()-20);
+        setAttr(attr.THIRST,getThirst()-5);
+        setAttr(attr.DIRTINESS,getDirtiness()-10);
+        setAttr(attr.UNHEALTHINESS,getUnHealthiness()-5);
     }
     
     function buyCake() external onlyAwake onlyAlive onlyOwner{
         require (getHunger()>=30,"I'm stuffed!");
-        require (getCleanliness()>=30,"I'm too dirty to eat!");
-        setAttr(attr.HAPPINESS,10 + int(getHunger()/10));
+        require (getDirtiness()>=30,"I'm too dirty to eat!");
+        setAttr(attr.UNHAPPINESS,10 + getHunger()/10);
         setAttr(attr.HUNGER,-30);
         setAttr(attr.THIRST,10);
-        setAttr(attr.CLEANLINESS,-20);
-        setAttr(attr.HEALTH,-10);
-        setAttr(attr.ENERGY,5);
+        setAttr(attr.DIRTINESS,-20);
+        setAttr(attr.UNHEALTHINESS,-10);
+        setAttr(attr.TIREDNESS,5);
     }
     
     function buyVegetables() external onlyAwake onlyAlive onlyOwner{
-        require (attributes[attr.CLEANLINESS]>=30,"I'm too dirty to eat");
-        require (attributes[attr.HUNGER]>=30,"I'm stuffed!");
-        setAttr(attr.HUNGER,-20);
-        setAttr(attr.CLEANLINESS,-10);
-        setAttr(attr.HEALTH, 15);
-        setAttr(attr.HAPPINESS,-10);
+        require (getDirtiness()>=30,"I'm too dirty to eat");
+        require (getHunger()>=30,"I'm stuffed!");
+        setAttr(attr.HUNGER,getHunger()-20);
+        setAttr(attr.DIRTINESS,-10);
+        setAttr(attr.UNHEALTHINESS, 15);
+        setAttr(attr.UNHAPPINESS,-10);
     }
     
     function buyMeal() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.HUNGER,-50);
+        setAttr(attr.HUNGER,0);
         setAttr(attr.THIRST,-50);
-        setAttr(attr.CLEANLINESS,-15);
-        setAttr(attr.HEALTH,10);
-        setAttr(attr.HAPPINESS,int(getHunger()/10));
+        setAttr(attr.DIRTINESS,-15);
+        setAttr(attr.UNHEALTHINESS,10);
+        setAttr(attr.UNHAPPINESS,getHunger()/10);
     }
     
     function buyWater() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.HAPPINESS, int(getThirst()/10));
+        setAttr(attr.UNHAPPINESS, getThirst()/10);
         setAttr(attr.THIRST,-50);
-        setAttr(attr.HEALTH,10);
+        setAttr(attr.UNHEALTHINESS,10);
     }
 
     function buySoda() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.HAPPINESS, 15 + int(getThirst()/10));
+        setAttr(attr.UNHAPPINESS, 15 + getThirst()/10);
         setAttr(attr.HUNGER,-10);
         setAttr(attr.THIRST,-50);
-        setAttr(attr.CLEANLINESS,-15);
-        setAttr(attr.HEALTH,-10);
-        setAttr(attr.ENERGY,5);
+        setAttr(attr.DIRTINESS,-15);
+        setAttr(attr.UNHEALTHINESS,-10);
+        setAttr(attr.TIREDNESS,5);
     }
 
     function buyFruitJuice() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.HAPPINESS,5 + int(getThirst()/10));
+        setAttr(attr.UNHAPPINESS,5 + getThirst()/10);
         setAttr(attr.HUNGER,-10);
         setAttr(attr.THIRST,-30);
-        setAttr(attr.CLEANLINESS,-10);
-        setAttr(attr.HEALTH,15);
-        setAttr(attr.ENERGY,5);
+        setAttr(attr.DIRTINESS,-10);
+        setAttr(attr.UNHEALTHINESS,15);
+        setAttr(attr.TIREDNESS,5);
     }
     
     function buyToy() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.HAPPINESS,30);
-        setAttr(attr.ENERGY,-20);
-        setAttr(attr.CLEANLINESS,-20);
+        setAttr(attr.UNHAPPINESS,30);
+        setAttr(attr.TIREDNESS,-20);
+        setAttr(attr.DIRTINESS,-20);
     }
     
     function buyMedicine() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.HEALTH,50);
-        setAttr(attr.HAPPINESS,-30);
-        setAttr(attr.ENERGY,-30);
+        setAttr(attr.UNHEALTHINESS,50);
+        setAttr(attr.UNHAPPINESS,-30);
+        setAttr(attr.TIREDNESS,-30);
     }
     
     function brush() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.CLEANLINESS,20);
-        setAttr(attr.HAPPINESS,-10);
+        setAttr(attr.DIRTINESS,20);
+        setAttr(attr.UNHAPPINESS,-10);
     }
     
     function wash() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.CLEANLINESS,50);
-        setAttr(attr.HAPPINESS,-20);
+        setAttr(attr.DIRTINESS,50);
+        setAttr(attr.UNHAPPINESS,-20);
     }
     
     function walk() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.HEALTH,15);
-        setAttr(attr.HAPPINESS,10);
-        setAttr(attr.ENERGY,-20);
+        setAttr(attr.UNHEALTHINESS,15);
+        setAttr(attr.UNHAPPINESS,10);
+        setAttr(attr.TIREDNESS,-20);
     }
     
     function exercise() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.HEALTH,25);
-        setAttr(attr.HAPPINESS,10);
-        setAttr(attr.ENERGY,-30);
+        setAttr(attr.UNHEALTHINESS,25);
+        setAttr(attr.UNHAPPINESS,10);
+        setAttr(attr.TIREDNESS,-30);
         setAttr(attr.THIRST,30); // require thirst <70 so you cant exercise to death (goes for other stuff too) 
     }
     
     function sleep() external onlyAwake onlyAlive onlyOwner{
-        require (getEnergy()<=20, "I'm not sleepy");
+        require (getTiredness()>=75, "I'm not sleepy");
         sleepTime = block.timestamp;
         asleep = true;
     }
@@ -182,25 +182,26 @@ contract TitanPet is Ownable{
         
         // Underslept
         if ((wakeUpTime - sleepTime) > 30 minutes && (wakeUpTime - sleepTime) <= 1 hours) {
-            setAttr(attr.ENERGY,30 + (wakeUpTime % 70));
-            setAttr(attr.HAPPINESS,-10);
-            setAttr(attr.HEALTH,-10);
+            setAttr(attr.TIREDNESS,50+int(wakeUpTime % 50));
+            setAttr(attr.UNHAPPINESS,-10);
+            setAttr(attr.UNHEALTHINESS,-10);
         }
         
         // Slept okay
         if ((wakeUpTime - sleepTime) > 1 hours && (wakeUpTime - sleepTime) <= 2 hours) {
-            attributes[attr.ENERGY] = 50 + (wakeUpTime % 50);
+            setAttr(attr.TIREDNESS, 20+ int(wakeUpTime % 30));
         }
         
         // Well slept
         if ((wakeUpTime - sleepTime) > 2 hours) {
-            attributes[attr.ENERGY] = 70 + (wakeUpTime % 30);
-            setAttr(attr.HAPPINESS, getHappiness()+10);
-            attributes[attr.HEALTH] += 15;
+            setAttr(attr.TIREDNESS,int(wakeUpTime) % 20);
+            setAttr(attr.UNHAPPINESS, int(getUnHappiness()-10));
+            attributes[attr.UNHEALTHINESS] += 15;
         }
 
     }
 
+    // Param has to be an int to prevent possible underflow
     function setAttr(attr p_attribute, int p_value) internal {
         if (p_value<0) {
             p_value=0;
@@ -214,7 +215,7 @@ contract TitanPet is Ownable{
 
     
     // Get functions
-    function getHunger() public view returns(uint){
+    function getHunger() public view returns(int){
         if (asleep){
             return attributes[attr.HUNGER];
         }
@@ -224,7 +225,7 @@ contract TitanPet is Ownable{
         }
     }
     
-    function getThirst() public view returns(uint){
+    function getThirst() public view returns(int){
         if (asleep){
             return attributes[attr.THIRST];
         }
@@ -234,30 +235,30 @@ contract TitanPet is Ownable{
         }
     }
     
-    function getCleanliness() public view returns(uint){
+    function getDirtiness() public view returns(int){
         if (asleep){
-            return attributes[attr.CLEANLINESS];
+            return attributes[attr.DIRTINESS];
         }
         else {
             // time decay function
-            return attributes[attr.CLEANLINESS];
+            return attributes[attr.DIRTINESS];
         }
     }
  
-    function getHappiness() public view returns(uint){
-        return attributes[attr.HAPPINESS];
+    function getUnHappiness() public view returns(int){
+        return attributes[attr.UNHAPPINESS];
     }   
     
     function getMinutesAsleep() public view onlyAsleep returns(uint) {
         return (block.timestamp-sleepTime)/1 minutes;
     }
     
-    function getEnergy() public view returns(uint){
-        return attributes[attr.ENERGY];
+    function getTiredness() public view returns(int){
+        return attributes[attr.TIREDNESS];
     }
     
-    function getHealth() public view returns(uint){
-        return attributes[attr.HEALTH];
+    function getUnHealthiness() public view returns(int){
+        return (100-attributes[attr.UNHEALTHINESS]);
     }
     
     function getEulogy() public view returns(string memory){
@@ -271,7 +272,7 @@ contract TitanPet is Ownable{
     function isAlive() public view returns(bool){
         return (getHunger() < 100 
         && getThirst() < 100 
-        && getHealth() > 0);
+        && getUnHealthiness() > 0);
     }
     
     function bury(string calldata p_eulogy) external onlyDead onlyOwner{
@@ -282,11 +283,11 @@ contract TitanPet is Ownable{
     }
     
     function revive() external onlyDead onlyOwner{
-        attributes[attr.HEALTH]=100;
+        attributes[attr.UNHEALTHINESS]=100;
     }
     
     function kill() external onlyAlive {
-        attributes[attr.HEALTH]=0;
+        attributes[attr.UNHEALTHINESS]=0;
     }
     
 }

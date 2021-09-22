@@ -159,25 +159,12 @@
 			},
 			{
 				"inputs": [],
-				"name": "getCleanliness",
+				"name": "getDirtiness",
 				"outputs": [
 					{
-						"internalType": "uint256",
+						"internalType": "int256",
 						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "getEnergy",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
+						"type": "int256"
 					}
 				],
 				"stateMutability": "view",
@@ -198,38 +185,12 @@
 			},
 			{
 				"inputs": [],
-				"name": "getHappiness",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "getHealth",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
 				"name": "getHunger",
 				"outputs": [
 					{
-						"internalType": "uint256",
+						"internalType": "int256",
 						"name": "",
-						"type": "uint256"
+						"type": "int256"
 					}
 				],
 				"stateMutability": "view",
@@ -253,9 +214,48 @@
 				"name": "getThirst",
 				"outputs": [
 					{
-						"internalType": "uint256",
+						"internalType": "int256",
 						"name": "",
-						"type": "uint256"
+						"type": "int256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getTiredness",
+				"outputs": [
+					{
+						"internalType": "int256",
+						"name": "",
+						"type": "int256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getUnHappiness",
+				"outputs": [
+					{
+						"internalType": "int256",
+						"name": "",
+						"type": "int256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getUnHealthiness",
+				"outputs": [
+					{
+						"internalType": "int256",
+						"name": "",
+						"type": "int256"
 					}
 				],
 				"stateMutability": "view",
@@ -417,11 +417,11 @@
 			]
 		},
 		"contracts/titanPet.sol": {
-			"keccak256": "0x041fc0478cb2be334839ed42f29fb9c687493f5e49de016af1e9515fea6ef655",
+			"keccak256": "0xb6e53a403d96d8f79e694b520fd9d1607a8aef151bccd11a0efe0cd6af6b03c5",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://860e2d41e29a038c18f61262d5428996d9f72079a75559c8f3962aa646eced9f",
-				"dweb:/ipfs/QmVEAb27M9H9KkSXASM9EcsFmDhHfEL1f9XeyLyLGEo6cJ"
+				"bzz-raw://5900fc215237904e2a4495b02af7d88288b38259c08951ac867e8656eb291e62",
+				"dweb:/ipfs/QmNo3MYdgTmzz7DuVxWsFRnFtBMfqpdu1eyiwn9akA6qZT"
 			]
 		}
 	},
