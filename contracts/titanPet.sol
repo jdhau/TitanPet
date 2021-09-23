@@ -33,8 +33,6 @@ contract TitanPet is Ownable{
     uint sleepTime;
     uint wakeUpTime;
     
-
-
     modifier onlyDead() {
         require(!isAlive(), "I'm alive");
         _;
@@ -77,96 +75,97 @@ contract TitanPet is Ownable{
         require (getDirtiness()>=30,"I'm too dirty to eat");
         require (getHunger()>=30,"I'm not hungry");
         setAttr(attr.HUNGER,getHunger()-20);
-        setAttr(attr.THIRST,getThirst()-5);
-        setAttr(attr.DIRTINESS,getDirtiness()-10);
-        setAttr(attr.UNHEALTHINESS,getUnHealthiness()-5);
+        setAttr(attr.THIRST,getThirst()-10);
+        setAttr(attr.DIRTINESS,getDirtiness()+15);
+        setAttr(attr.UNHEALTHINESS,getUnHealthiness()-10);
     }
     
     function buyCake() external onlyAwake onlyAlive onlyOwner{
         require (getHunger()>=30,"I'm stuffed!");
         require (getDirtiness()>=30,"I'm too dirty to eat!");
-        setAttr(attr.UNHAPPINESS,10 + getHunger()/10);
-        setAttr(attr.HUNGER,-30);
-        setAttr(attr.THIRST,10);
-        setAttr(attr.DIRTINESS,-20);
-        setAttr(attr.UNHEALTHINESS,-10);
-        setAttr(attr.TIREDNESS,5);
+        setAttr(attr.UNHAPPINESS,getUnHappiness()+ 10 + getHunger()/10);
+        setAttr(attr.HUNGER,getHunger()-30);
+        setAttr(attr.THIRST,getThirst()+10);
+        setAttr(attr.DIRTINESS,getDirtiness()+20);
+        setAttr(attr.UNHEALTHINESS,getUnHealthiness()+10);
+        setAttr(attr.TIREDNESS,getTiredness()+10);
     }
     
     function buyVegetables() external onlyAwake onlyAlive onlyOwner{
         require (getDirtiness()>=30,"I'm too dirty to eat");
         require (getHunger()>=30,"I'm stuffed!");
         setAttr(attr.HUNGER,getHunger()-20);
-        setAttr(attr.DIRTINESS,-10);
-        setAttr(attr.UNHEALTHINESS, 15);
-        setAttr(attr.UNHAPPINESS,-10);
+        setAttr(attr.DIRTINESS,getDirtiness()+10);
+        setAttr(attr.UNHEALTHINESS,getUnHealthiness()-15);
+        setAttr(attr.UNHAPPINESS,getUnHappiness()+10);
     }
     
     function buyMeal() external onlyAwake onlyAlive onlyOwner{
         setAttr(attr.HUNGER,0);
-        setAttr(attr.THIRST,-50);
-        setAttr(attr.DIRTINESS,-15);
-        setAttr(attr.UNHEALTHINESS,10);
-        setAttr(attr.UNHAPPINESS,getHunger()/10);
+        setAttr(attr.THIRST,getThirst()/2);
+        setAttr(attr.DIRTINESS,getDirtiness()+15);
+        setAttr(attr.UNHEALTHINESS,getUnHealthiness()-10);
+        setAttr(attr.UNHAPPINESS,getUnHappiness()-getHunger()/10);
     }
     
     function buyWater() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.UNHAPPINESS, getThirst()/10);
-        setAttr(attr.THIRST,-50);
-        setAttr(attr.UNHEALTHINESS,10);
+        setAttr(attr.UNHAPPINESS,getUnHappiness()-getThirst()/10);
+        setAttr(attr.THIRST,getThirst()-50);
+        setAttr(attr.UNHEALTHINESS,getUnHealthiness()-10);
     }
 
     function buySoda() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.UNHAPPINESS, 15 + getThirst()/10);
-        setAttr(attr.HUNGER,-10);
-        setAttr(attr.THIRST,-50);
-        setAttr(attr.DIRTINESS,-15);
-        setAttr(attr.UNHEALTHINESS,-10);
-        setAttr(attr.TIREDNESS,5);
+        setAttr(attr.UNHAPPINESS,getUnHappiness()-(15 + getThirst()/10));
+        setAttr(attr.HUNGER,getHunger()-10);
+        setAttr(attr.THIRST,getThirst()-50);
+        setAttr(attr.DIRTINESS,getDirtiness()+15);
+        setAttr(attr.UNHEALTHINESS,getUnHealthiness()+10);
+        setAttr(attr.TIREDNESS,getTiredness()+5);
     }
 
     function buyFruitJuice() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.UNHAPPINESS,5 + getThirst()/10);
-        setAttr(attr.HUNGER,-10);
-        setAttr(attr.THIRST,-30);
-        setAttr(attr.DIRTINESS,-10);
-        setAttr(attr.UNHEALTHINESS,15);
-        setAttr(attr.TIREDNESS,5);
+        setAttr(attr.UNHAPPINESS,getUnHappiness()-(5 + getThirst()/10));
+        setAttr(attr.HUNGER,getHunger()-10);
+        setAttr(attr.THIRST,getThirst()-30);
+        setAttr(attr.DIRTINESS,getDirtiness()+10);
+        setAttr(attr.UNHEALTHINESS,getUnHealthiness()-15);
+        setAttr(attr.TIREDNESS,getTiredness()+5);
     }
     
     function buyToy() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.UNHAPPINESS,30);
-        setAttr(attr.TIREDNESS,-20);
-        setAttr(attr.DIRTINESS,-20);
+        setAttr(attr.UNHAPPINESS,getUnHappiness()-50);
+        setAttr(attr.TIREDNESS,getTiredness()+20);
+        setAttr(attr.DIRTINESS,getDirtiness()+20);
     }
     
     function buyMedicine() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.UNHEALTHINESS,50);
-        setAttr(attr.UNHAPPINESS,-30);
-        setAttr(attr.TIREDNESS,-30);
+        setAttr(attr.UNHEALTHINESS,getUnHealthiness()-50);
+        setAttr(attr.UNHAPPINESS,getUnHappiness()+30);
+        setAttr(attr.TIREDNESS,getTiredness()+30);
     }
     
     function brush() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.DIRTINESS,20);
-        setAttr(attr.UNHAPPINESS,-10);
+        setAttr(attr.DIRTINESS,getDirtiness()-20);
+        setAttr(attr.UNHAPPINESS,getUnHappiness()+10);
     }
     
     function wash() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.DIRTINESS,50);
-        setAttr(attr.UNHAPPINESS,-20);
+        setAttr(attr.DIRTINESS,getDirtiness()-50);
+        setAttr(attr.UNHAPPINESS,getUnHappiness()+20);
+          setAttr(attr.TIREDNESS,getTiredness()+10);     
     }
     
     function walk() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.UNHEALTHINESS,15);
-        setAttr(attr.UNHAPPINESS,10);
-        setAttr(attr.TIREDNESS,-20);
+        setAttr(attr.UNHEALTHINESS,getUnHealthiness()-15);
+        setAttr(attr.UNHAPPINESS,getUnHappiness()-10);
+        setAttr(attr.TIREDNESS,getTiredness()+20);
     }
     
     function exercise() external onlyAwake onlyAlive onlyOwner{
-        setAttr(attr.UNHEALTHINESS,25);
-        setAttr(attr.UNHAPPINESS,10);
-        setAttr(attr.TIREDNESS,-30);
-        setAttr(attr.THIRST,30); // require thirst <70 so you cant exercise to death (goes for other stuff too) 
+        setAttr(attr.UNHEALTHINESS,getUnHealthiness()-25);
+        setAttr(attr.UNHAPPINESS,getUnHappiness()-10);
+        setAttr(attr.TIREDNESS,getTiredness()+30);
+        setAttr(attr.THIRST,getThirst()+30); // require thirst <70 so you cant exercise to death (goes for other stuff too) 
     }
     
     function sleep() external onlyAwake onlyAlive onlyOwner{
@@ -182,21 +181,21 @@ contract TitanPet is Ownable{
         
         // Underslept
         if ((wakeUpTime - sleepTime) > 30 minutes && (wakeUpTime - sleepTime) <= 1 hours) {
-            setAttr(attr.TIREDNESS,50+int(wakeUpTime % 50));
-            setAttr(attr.UNHAPPINESS,-10);
-            setAttr(attr.UNHEALTHINESS,-10);
+            setAttr(attr.TIREDNESS,20+int(wakeUpTime % 50));
+            setAttr(attr.UNHAPPINESS,getUnHappiness()+20);
+            setAttr(attr.UNHEALTHINESS,getUnHealthiness()+10);
         }
         
         // Slept okay
         if ((wakeUpTime - sleepTime) > 1 hours && (wakeUpTime - sleepTime) <= 2 hours) {
-            setAttr(attr.TIREDNESS, 20+ int(wakeUpTime % 30));
+            setAttr(attr.TIREDNESS,10+int(wakeUpTime % 30));
         }
         
         // Well slept
         if ((wakeUpTime - sleepTime) > 2 hours) {
             setAttr(attr.TIREDNESS,int(wakeUpTime) % 20);
-            setAttr(attr.UNHAPPINESS, int(getUnHappiness()-10));
-            attributes[attr.UNHEALTHINESS] += 15;
+            setAttr(attr.UNHAPPINESS,getUnHappiness()-20);
+            setAttr(attr.UNHEALTHINESS,getUnHealthiness()-10);
         }
 
     }

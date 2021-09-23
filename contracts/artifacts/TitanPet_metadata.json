@@ -417,11 +417,11 @@
 			]
 		},
 		"contracts/titanPet.sol": {
-			"keccak256": "0xb6e53a403d96d8f79e694b520fd9d1607a8aef151bccd11a0efe0cd6af6b03c5",
+			"keccak256": "0x7e7e613e8176dbb3a94f6ba71e77496ad5d8462504b8ee3ed13afc3ca8a51965",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://5900fc215237904e2a4495b02af7d88288b38259c08951ac867e8656eb291e62",
-				"dweb:/ipfs/QmNo3MYdgTmzz7DuVxWsFRnFtBMfqpdu1eyiwn9akA6qZT"
+				"bzz-raw://3efc23e2f266fcadccbb00a620a7ce6273aab48b7f9c06c26ff433f02c4cad24",
+				"dweb:/ipfs/QmeTZkyHgfEHQDum5n5JfeBM5RVhrjzgvozw6U5ZxqxCEC"
 			]
 		}
 	},
