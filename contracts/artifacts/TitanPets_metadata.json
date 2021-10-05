@@ -207,7 +207,83 @@
 						"type": "uint256"
 					}
 				],
+				"name": "getHunger",
+				"outputs": [
+					{
+						"internalType": "int256",
+						"name": "",
+						"type": "int256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "p_id",
+						"type": "uint256"
+					}
+				],
+				"name": "getThirst",
+				"outputs": [
+					{
+						"internalType": "int256",
+						"name": "",
+						"type": "int256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "p_id",
+						"type": "uint256"
+					}
+				],
+				"name": "getTiredness",
+				"outputs": [
+					{
+						"internalType": "int256",
+						"name": "",
+						"type": "int256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "p_id",
+						"type": "uint256"
+					}
+				],
 				"name": "getUnHappiness",
+				"outputs": [
+					{
+						"internalType": "int256",
+						"name": "",
+						"type": "int256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "p_id",
+						"type": "uint256"
+					}
+				],
+				"name": "getUnHealthiness",
 				"outputs": [
 					{
 						"internalType": "int256",
@@ -731,11 +807,11 @@
 			]
 		},
 		"contracts/TitanPets.sol": {
-			"keccak256": "0x1aa07ddd27c273a443928b5a16749244ec4ec968d2a900f8aafbf03864045a30",
+			"keccak256": "0xe9893fa24e5ee15002a4e300d9651439e9bfe332d4da080679be4ad6d180a768",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://a97bd57f17daae4aed81aa7ff473afce48f861abfa4ea9df59e8ea3053c0ddc1",
-				"dweb:/ipfs/QmSQjXhSwGzFcuHokUDN1k9Hkv1JbKfAdAQR4WXYq3EwV2"
+				"bzz-raw://c42455c9f46380fd30e31760fd59dc6c45e0b8517dcda1666f26e1eee444faa5",
+				"dweb:/ipfs/QmdMsQVcfwJ5ioq7JydqZJ2gnE2MjwD5PKfYUjxmeaMFfS"
 			]
 		}
 	},

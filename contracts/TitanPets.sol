@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "./TitanPet.sol";
+import "./TitanPetBoost.sol";
 
 contract TitanPets is Ownable, ERC721("Titan Pets","TITANPET"){
     TitanPet[] public pets;
@@ -34,12 +35,31 @@ contract TitanPets is Ownable, ERC721("Titan Pets","TITANPET"){
     }
  
     function getUnHappiness(uint p_id) public view returns (int256){
-        require(isAllowed(p_id),"Private pet and you don't own it");
         return pets[p_id].getUnHappiness();
+    }
+    
+    function getHunger(uint p_id) public view returns (int256){
+        return pets[p_id].getHunger();
+    }
+
+    function getThirst(uint p_id) public view returns (int256){
+        return pets[p_id].getThirst();
+    }
+
+    function getUnHealthiness(uint p_id) public view returns (int256){
+        return pets[p_id].getUnHealthiness();
+    }
+    
+    function getTiredness(uint p_id) public view returns (int256){
+        return pets[p_id].getTiredness();
     }
     
     function flipPrivate(uint p_id) public onlyPetOwner(p_id) {
         pets[p_id].flipPrivate();
+    }
+    
+    function applyBoost(uint p_id) public onlyPetOwner(p_id) {
+        // APPLY BOOST NFT 
     }
     
     function isAlive(uint p_id) public view returns (bool) {
