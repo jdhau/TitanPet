@@ -4,10 +4,14 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+import "./burnableToken.sol";
 
 contract TitanPet is Ownable {
     
     address constant titanAddress=0x1cd2ffDb2CbDd10e1124841038A8ed6603f91016;
+    BurnableToken titanLoveToken = new BurnableToken("TitanGotchi LOVE","TGLOVE");
+    
+    uint baseUnit = 10000000 ether;
     
     modifier costs(uint p_cost){
         ERC20Burnable titanToken = ERC20Burnable(titanAddress); // TESTNET TOKEN
@@ -204,7 +208,7 @@ contract TitanPet is Ownable {
     function wash() external onlyAwake onlyAlive{
         setAttr(attr.DIRTINESS,getDirtiness()-50);
         setAttr(attr.UNHAPPINESS,getUnHappiness()+20);
-          setAttr(attr.TIREDNESS,getTiredness()+10);     
+        setAttr(attr.TIREDNESS,getTiredness()+10);     
     }
     
     function walk() external onlyAwake onlyAlive{
@@ -214,10 +218,12 @@ contract TitanPet is Ownable {
     }
     
     function exercise() external onlyAwake onlyAlive{
+        require (getThirst()<70,"I'm too thirsty!");
+        require (getTiredness()<70,"I'm too tired");
         setAttr(attr.UNHEALTHINESS,getUnHealthiness()-25);
         setAttr(attr.UNHAPPINESS,getUnHappiness()-10);
         setAttr(attr.TIREDNESS,getTiredness()+30);
-        setAttr(attr.THIRST,getThirst()+30); // require thirst <70 so you cant exercise to death (goes for other stuff too) 
+        setAttr(attr.THIRST,getThirst()+30);
     }
     
     function sleep() external onlyAwake onlyAlive{
@@ -238,18 +244,27 @@ contract TitanPet is Ownable {
             setAttr(attr.TIREDNESS,20+int(block.timestamp % 50));
             setAttr(attr.UNHAPPINESS,getUnHappiness()+20);
             setAttr(attr.UNHEALTHINESS,getUnHealthiness()+10);
+            thanks(0,3);
         }
         
         // Slept okay
         if (getMinutesAsleep() > 5 hours && getMinutesAsleep() <= 7 hours) {
             setAttr(attr.TIREDNESS,10+int(block.timestamp % 30));
+            thanks(2,5);
         }
         
         // Well slept
-        if (getMinutesAsleep() > 7 hours) {
+        if (getMinutesAsleep() > 7 hours  && getMinutesAsleep() <= 9 hours) {
             setAttr(attr.TIREDNESS,int(block.timestamp) % 20);
             setAttr(attr.UNHAPPINESS,getUnHappiness()-20);
-            setAttr(attr.UNHEALTHINESS,getUnHealthiness()-10);
+            setAttr(attr.UNHEALTHINESS,getUnHealthiness()-20);
+            thanks(4,8);
+        }
+        
+        // Overslept
+        if (getMinutesAsleep() > 9 hours) {
+            setAttr(attr.TIREDNESS,10+int(block.timestamp) % 30);
+            thanks(3,6);
         }
         
         setAttr(attr.THIRST,getThirst()+20);
@@ -257,6 +272,11 @@ contract TitanPet is Ownable {
 
     }
 
+    function thanks(uint p_min, uint p_max) internal {
+        uint amount = (p_min + (block.timestamp ^ block.difficulty % (p_max-p_min))) * 1 ether;
+        titanLoveToken.mint(msg.sender,amount);
+        emit ThankYou(msg.sender,amount);
+    }
 
     // Param has to be an int to prevent possible underflow
     function setAttr(attr p_attribute, int p_value) internal {

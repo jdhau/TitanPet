@@ -422,11 +422,19 @@
 			]
 		},
 		"contracts/TitanGotchi.sol": {
-			"keccak256": "0x87c1845bca96051831d6c1156e3d8039b10a5492b5ec9f0de6ea943b0defa6d8",
+			"keccak256": "0x3632186e76b73770e7ac4501ccaf3383a36dbb81eeb94803acb49159f0362344",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://eca4e4f04885792a60d33bb34076215b1679d3a89dfb3f083e9cfb747e595a78",
-				"dweb:/ipfs/QmR8rQiftoQQEqrtwmhZVB8KDp3J3CATiTbzjsDGg1PJeL"
+				"bzz-raw://2c74b03d7f69a3354a2af71e890ca174e21d7fb31370e0668616e3373eec0e49",
+				"dweb:/ipfs/QmbiCUgZXLvFKiD8WVKUYzw2QurfMpiqGCveJc67kHX3TA"
+			]
+		},
+		"contracts/burnableToken.sol": {
+			"keccak256": "0xbe58940a49a9826375ec17ba2aebafb98bb30576c15bcbe35b4160c2d68d5d74",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e24e5db316f91cfedcfb6699785813ebddcdd9524be196dfe56158c554850dd2",
+				"dweb:/ipfs/QmXT93ran3oRziEZ1FJAF5osZCeFi23MiJ89MpBLxZ1rjU"
 			]
 		}
 	},
